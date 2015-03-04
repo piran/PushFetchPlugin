@@ -70,7 +70,13 @@ static char launchNotificationKey;
     if ([application respondsToSelector:@selector(applicationState)]) {
         appState = application.applicationState;
     }
-    
+   
+	//	TODO: only work with content-available:1 type notifications
+	PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
+	pushHandler.notificationMessage = userInfo;
+	pushHandler.isInline = YES;
+	[pushHandler notificationReceived];
+	/*
     if (appState == UIApplicationStateActive) {
         PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
         pushHandler.notificationMessage = userInfo;
@@ -80,6 +86,7 @@ static char launchNotificationKey;
         //save it for later
         self.launchNotification = userInfo;
     }
+	*/
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
